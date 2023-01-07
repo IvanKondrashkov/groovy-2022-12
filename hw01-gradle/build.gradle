@@ -1,0 +1,28 @@
+plugins {
+    id 'groovy'
+    id 'com.github.johnrengelman.shadow'
+}
+
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation localGroovy()
+    implementation 'com.google.guava:guava'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+shadowJar {
+    archiveBaseName.set('hw01-gradle-fatJar')
+    archiveVersion.set('0.1')
+    manifest {
+        attributes 'Main-Class': 'ru.otus.homework.Main'
+    }
+}
