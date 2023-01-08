@@ -4,13 +4,13 @@ import org.junit.jupiter.api.Test
 import static org.junit.jupiter.api.Assertions.assertEquals
 
 class HelloOtusTest {
-
     @Test
-    void setData() {
-        HelloOtus otus = new HelloOtus()
-        otus.setData(10, 30)
+    void setEmail() {
+        HelloOtus otus = new HelloOtus("Djon", "Doe")
+        otus.setEmail(otus.getName(), otus.getSurname(), EMAIL.MAIL)
 
-        assertEquals(10, otus.start)
-        assertEquals(30, otus.end)
+        assertEquals(otus.getName(), "Djon")
+        assertEquals(otus.getSurname(), "Doe")
+        assertEquals(otus.getEmail(), "djondoe@mail.ru")
     }
 }

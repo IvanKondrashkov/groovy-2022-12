@@ -1,11 +1,9 @@
 package ru.otus.homework
 
 static void main(String[] args) {
+  HelloOtus otus = new HelloOtus("Djon", "Doe")
+  otus.setEmail(otus.getName(), otus.getSurname(), EMAIL.MAIL)
+
   println "Hello world!"
-
-  HelloOtus otus = new HelloOtus()
-  otus.setData(10, 30)
-
-  println otus.start
-  println otus.end
+  println otus.toString()
 }
