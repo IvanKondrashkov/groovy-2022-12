@@ -1,26 +1,28 @@
 package ru.otus.homework
 
-import ru.otus.homework.model.Atm
+import ru.otus.homework.model.Card
+import ru.otus.homework.model.Money
 import ru.otus.homework.model.Currency
 import ru.otus.homework.service.AtmService
-import ru.otus.homework.service.AtmServiceImpl
+import ru.otus.homework.service.Atm
 
 static void main(String[] args) {
-  Atm atm = new Atm(Currency.RUB)
-  AtmService service = new AtmServiceImpl(atm)
-  Atm atm1 = new Atm(100, Currency.RUB, atm.score)
-  atm = service + atm1
-  println service.balance()
-  Atm atm2 = new Atm(300, Currency.RUB, atm.score)
-  atm = service + atm2
-  println service.balance()
-  Atm atm3 = new Atm(300, Currency.RUB, atm.score)
-  atm = service - atm3
-  println service.balance()
-  Atm atm4 = new Atm(100, Currency.RUB, atm.score)
-  atm = service - atm4
-  println service.balance()
-  Atm atm5 = new Atm(1000, Currency.RUB, atm.score)
-  atm = service + atm5
-  println service.balance()
+  Money money = new Money(Currency.RUB)
+  Card card = new Card(money)
+  AtmService service = new Atm(card)
+  Money money1 = new Money(100, Currency.RUB)
+  money = service + money1
+  println service.balance(money.currency)
+  Money money2 = new Money(300, Currency.RUB)
+  money = service + money2
+  println service.balance(money.currency)
+  Money money3 = new Money(300, Currency.RUB)
+  money = service - money3
+  println service.balance(money.currency)
+  Money money4 = new Money(100, Currency.RUB)
+  money = service - money4
+  println service.balance(money.currency)
+  Money money5 = new Money(1000, Currency.RUB)
+  money = service + money5
+  println service.balance(money.currency)
 }

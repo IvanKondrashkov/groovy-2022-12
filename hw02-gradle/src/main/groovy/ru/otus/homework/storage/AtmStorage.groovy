@@ -1,57 +1,58 @@
 package ru.otus.homework.storage
 
+import ru.otus.homework.model.Currency
+
 trait AtmStorage {
     private static def atm = [
-            100 : 0,
-            200 : 0,
-            500 : 0,
-            1000 : 0,
-            2000 : 0,
-            5000 : 0
+            (Currency.RUB) : [10 : 0, 50 : 0, 100 : 0, 200 : 0, 500 : 0, 1000 : 0, 2000 : 0, 5000 : 0],
+            (Currency.EUR) : [5 : 0, 10 : 0, 20 : 0, 50 : 0, 100 : 0, 200 : 0, 500 : 0],
+            (Currency.USD) : [1 : 0, 2 : 0, 5 : 0, 10 : 0, 20 : 0, 50 : 0, 100 : 0, 500 : 0, 1000 : 0]
     ]
 
-    Closure pushAtm = { int amount ->
-        int count = 0
-        if (atm.containsKey(amount)) {
-            atm[amount] = ++count
-            return count.is(1)
-        }
-        atm.reverseEach {entry ->
-            int rem = amount % entry.getKey()
-            if (rem != 0) {
-                if (atm.containsKey(amount - rem)) {
-                    atm[amount] = ++count
-                    pushAtm(rem)
+    Closure pushAtm = { int amount, Currency currency ->
+        if (atm[currency].containsKey(amount)) {
+            atm[currency][amount] = atm[currency][amount] + 1
+        } else {
+            atm[currency].reverseEach {entry ->
+                int rem = amount % entry.key
+                if (rem != 0) {
+                    if (atm[currency].containsKey(amount - rem)) {
+                        atm[currency][amount - rem] = atm[currency][amount - rem] + 1
+                        pushAtm(rem, currency)
+                    }
                 }
             }
         }
     }
 
-    Closure popAtm = { int amount ->
-        int count = 0
-        if (balance() < amount) {
-            throw new IllegalArgumentException("Your balance=$balance is less than the requested amount=$amount!")
+    Closure popAtm = { int amount, Currency currency ->
+        if (balance(currency) < amount) {
+            throw new IllegalArgumentException("Your balance=${balance(currency)} is less than the requested amount=$amount!")
         }
-        if (atm.containsKey(amount)) {
-            atm[amount] = count--
-            return count.is(0)
-        }
-        atm.reverseEach {entry ->
-            int rem = amount % entry.getKey()
-            if (rem != 0) {
-                if (atm.containsKey(amount - rem)) {
-                    atm[amount] = count--
-                    popAtm(rem)
+        if (atm[currency].containsKey(amount)) {
+            atm[currency][amount] = atm[currency][amount] - 1
+        } else {
+            atm[currency].reverseEach {entry ->
+                int rem = amount % entry.key
+                if (rem != 0) {
+                    if (atm[currency].containsKey(amount - rem)) {
+                        atm[currency][amount - rem] = atm[currency][amount - rem] - 1
+                        popAtm(rem, currency)
+                    }
                 }
             }
         }
     }
 
-    Closure balance = {
+    Closure balance = { Currency currency ->
         int sum = 0
-        atm.each {entry ->
-            if (entry.getValue() != 0) sum += entry.getKey() * entry.getValue()
+        atm[currency].each {entry ->
+            if (entry.value != 0) sum += entry.key * entry.value
         }
         return sum
+    }
+
+    Closure clear = { Currency currency ->
+        atm[currency] = atm[currency].collectEntries {entry -> [entry.key, 0]}
     }
 }
