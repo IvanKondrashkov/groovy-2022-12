@@ -43,6 +43,7 @@ static void main(String[] args) {
   println actions
   println countAction
   println '---------------------------------------------'
-
-  ManagerServiceImpl.fireNotify(action)
+  actions.each {
+    it.execute()
+  }
 }

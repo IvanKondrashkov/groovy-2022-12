@@ -55,7 +55,6 @@ class ManagerServiceImpl implements TaskService, TaskStorage, ActionService, Act
     @Override
     Action createAction(Action action) {
         validateAction(action)
-        fireNotify(action)
         action.id = currentActionId.incrementAndGet()
         if (!actions[action.id]) {
             actions[action.id] = action
@@ -124,15 +123,6 @@ class ManagerServiceImpl implements TaskService, TaskStorage, ActionService, Act
             throw new ValidateException("""
             Task start=$task.start is after action start=$action.start or task end=$task.end is before action=$action.end
             """)
-        }
-    }
-
-    static void fireNotify(Action action) {
-        action.fireNotify(new Event(action.name, LocalDateTime.now()))
-        if (action.start.isBefore(LocalDateTime.now())) {
-            action.addEventListener(event -> {
-                println "An event has come ${event.name}, ${event.created}"
-            })
         }
     }
 }
