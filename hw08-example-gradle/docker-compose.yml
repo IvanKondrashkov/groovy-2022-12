@@ -1,0 +1,18 @@
+version: '3.1'
+services:
+  orm-example-db:
+    image: postgres:14-alpine
+    container_name: orm-example-db-ct
+    volumes:
+      - /var/lib/postgresql/data/
+    ports:
+      - "6542:5432"
+    environment:
+      - POSTGRES_DB=orm-example
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+    healthcheck:
+      test: ["CMD", "pg_isready -U root -d orm-example"]
+      interval: 30s
+      timeout: 2s
+      retries: 10

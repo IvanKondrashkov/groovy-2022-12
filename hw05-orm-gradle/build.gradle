@@ -1,0 +1,31 @@
+plugins {
+    id 'idea'
+    id 'groovy'
+    id 'com.github.johnrengelman.shadow'
+}
+
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation localGroovy()
+    implementation 'com.zaxxer:HikariCP'
+    implementation 'org.postgresql:postgresql'
+    implementation 'org.flywaydb:flyway-core'
+}
+
+shadowJar {
+    archiveBaseName.set('hw05-orm-gradle-fatJar')
+    archiveVersion.set('0.1')
+    manifest {
+        attributes 'Main-Class': 'ru.otus.homework.Main'
+    }
+}
+
+tasks.register('copyResources', Copy) {
+    from "${projectDir}/src/main/resources"
+    into "${buildDir}/classes/java/main/resources"
+}

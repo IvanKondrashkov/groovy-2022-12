@@ -1,0 +1,35 @@
+plugins {
+    id 'idea'
+    id 'groovy'
+    id 'com.github.johnrengelman.shadow'
+}
+
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation localGroovy()
+    implementation 'com.zaxxer:HikariCP'
+    implementation 'org.postgresql:postgresql'
+    implementation 'org.flywaydb:flyway-core'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation project(':hw05-orm-gradle')
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+shadowJar {
+    archiveBaseName.set('hw08-example-gradle-fatJar')
+    archiveVersion.set('0.1')
+    manifest {
+        attributes 'Main-Class': 'ru.otus.homework.Main'
+    }
+}
