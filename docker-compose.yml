@@ -6,7 +6,7 @@ services:
     volumes:
       - /var/lib/postgresql/data/
     ports:
-      - "6542:5432"
+      - "5432:5432"
     environment:
       - POSTGRES_DB=orm-example
       - POSTGRES_USER=root

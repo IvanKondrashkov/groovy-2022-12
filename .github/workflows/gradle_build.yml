@@ -14,5 +14,9 @@ jobs:
         with:
           java-version: 11
           distribution: 'adopt'
+      - name: Build with Docker
+        run: docker-compose up -d
+      - name: Check Docker
+        run: docker-compose ps
       - name: Build with Gradle
         run: ./gradlew test
