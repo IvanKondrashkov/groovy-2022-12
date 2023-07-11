@@ -31,6 +31,9 @@ allprojects {
             dependency("org.codehaus.groovy:groovy-all:${Versions.groovy_all}")
             dependency("com.google.guava:guava:${Versions.guava}")
             dependency("org.junit.jupiter:junit-jupiter:${Versions.junit_jupiter}")
+            dependency("com.zaxxer:HikariCP:${Versions.hikari}")
+            dependency("org.postgresql:postgresql:${Versions.postgresdb}")
+            dependency("org.flywaydb:flyway-core:${Versions.flywaydb}")
         }
     }
 
